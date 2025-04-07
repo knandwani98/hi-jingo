@@ -7,26 +7,26 @@ interface TableProps {}
 
 export const TokenRevealTable = (props: TableProps) => {
   const getRevealedTokenGrid = useSelector(BOARD_STATES.getRevealedTokenGrid);
-  const getRevealedToken = useSelector(BOARD_STATES.getRevealedToken);
-
-  console.log(getRevealedTokenGrid);
+  const getRevealedTokensData = useSelector(BOARD_STATES.getRevealedTokensData);
 
   return (
     <section
       className={cn(
-        "bg-black min-h-screen w-full flex items-center justify-center"
+        "bg-secondary-foreground sm:min-h-screen w-full flex items-center justify-center"
       )}
     >
-      <ul className="grid sm:grid-cols-9 grid-cols-6">
+      <ul className="grid grid-cols-10">
         {getRevealedTokenGrid.map((token: any, i: number) => {
           return (
             <li
-              className="outline-double outline-primary outline-offset-2 text-secondary flex items-center justify-center font-bold text-2xl h-16 w-16"
+              className="max-xl:border xl:outline-double outline-secondary xl:outline-offset-2 text-secondary flex items-center justify-center font-bold sm:text-2xl h-10 w-10 sm:h-16 sm:w-16 aspect-square"
               key={i}
             >
               <p
                 className={cn(
-                  getRevealedToken === token && "text-primary animate-pulse"
+                  getRevealedTokensData.includes(token)
+                    ? "text-secondary bg-primary w-2/3 aspect-square rounded-full flex justify-center items-center"
+                    : "text-secondary/50"
                 )}
               >
                 {token}

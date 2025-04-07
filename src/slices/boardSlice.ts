@@ -18,7 +18,10 @@ interface BoardSliceTypes {
 const initialState: BoardSliceTypes = {
   randomTicketDataA: emptyArrayTill(VAL.NUM_OF_GRID),
   randomTicketDataB: emptyArrayTill(VAL.NUM_OF_GRID),
-  revealedTokenGrid: emptyArrayTill(VAL.MAX_NUMBER),
+  revealedTokenGrid: Array.from(
+    { length: VAL.MAX_NUMBER },
+    (_, index) => index + 1
+  ),
   revealedTokenData: [],
   revealedToken: 0,
 };
@@ -35,19 +38,17 @@ const boardSlice = createSlice({
     },
 
     getRandomToken: (state) => {
+      // current array data
       const data = [...state.revealedTokenData];
-
+      //
       const getUniqueRandomNumber = uniqueRandomNumber(data);
-
       state.revealedToken = getUniqueRandomNumber;
-
+      //
       data.push(getUniqueRandomNumber);
-
       state.revealedTokenData = data;
-
       //
       const gridData = state.revealedTokenGrid;
-      gridData.splice(data.length - 1, 1, getUniqueRandomNumber);
+      gridData.splice(getUniqueRandomNumber - 1, 1, getUniqueRandomNumber);
       state.revealedTokenGrid = gridData;
     },
   },
