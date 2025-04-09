@@ -10,22 +10,18 @@ export const TokenRevealTable = (props: TableProps) => {
   const getRevealedTokensData = useSelector(BOARD_STATES.getRevealedTokensData);
 
   return (
-    <section
-      className={cn(
-        "bg-secondary-foreground sm:min-h-screen w-full flex items-center justify-center"
-      )}
-    >
+    <section className={cn("w-full flex items-center justify-center")}>
       <ul className="grid grid-cols-10">
         {getRevealedTokenGrid.map((token: any, i: number) => {
           return (
             <li
-              className="max-xl:border xl:outline-double outline-secondary xl:outline-offset-2 text-secondary flex items-center justify-center font-bold sm:text-2xl h-10 w-10 sm:h-16 sm:w-16 aspect-square"
+              className="max-xl:border xl:outline-double outline-secondary xl:outline-offset-2 text-secondary flex items-center justify-center font-bold sm:text-2xl h-8 w-8 md:h-16 md:w-16 xl:h-20 xl:w-20 aspect-square"
               key={i}
             >
               <p
                 className={cn(
                   getRevealedTokensData.includes(token)
-                    ? "text-secondary bg-primary w-2/3 aspect-square rounded-full flex justify-center items-center"
+                    ? "text-secondary bg-primary w-4/5 h-4/5 aspect-square rounded-full flex justify-center items-center"
                     : "text-secondary/50"
                 )}
               >

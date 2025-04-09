@@ -2,8 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { permanentRedirect } from "next/navigation";
 
 export default function Home() {
+  return permanentRedirect("/game-board");
+
   return (
     <>
       {/* <header className="py-4 px-8"></header> */}

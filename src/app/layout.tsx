@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/providers/StoreProvider";
 import { cn } from "@/lib/utils";
-import { relative } from "path";
 
-const inter = Inter({ subsets: ["latin"] });
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <StoreProvider>
-        <body className={cn(inter.className, "relative")}>{children}</body>
+        <body className={cn(bricolage.className, "relative")}>{children}</body>
       </StoreProvider>
     </html>
   );

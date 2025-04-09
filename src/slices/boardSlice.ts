@@ -8,6 +8,7 @@ import {
 import { createSlice } from "@reduxjs/toolkit";
 
 interface BoardSliceTypes {
+  isGameStarted: boolean;
   randomTicketDataA: number[] | unknown[];
   randomTicketDataB: number[] | unknown[];
   revealedTokenGrid: unknown[];
@@ -16,6 +17,7 @@ interface BoardSliceTypes {
 }
 
 const initialState: BoardSliceTypes = {
+  isGameStarted: false,
   randomTicketDataA: emptyArrayTill(VAL.NUM_OF_GRID),
   randomTicketDataB: emptyArrayTill(VAL.NUM_OF_GRID),
   revealedTokenGrid: Array.from(
@@ -36,7 +38,9 @@ const boardSlice = createSlice({
     getRandomTicketB: (state) => {
       state.randomTicketDataB = getRandomTicketNumbers(VAL.NUM_OF_GRID);
     },
-
+    setIsGameStarted: (state, action) => {
+      state.isGameStarted = action.payload;
+    },
     getRandomToken: (state) => {
       // current array data
       const data = [...state.revealedTokenData];
@@ -54,8 +58,12 @@ const boardSlice = createSlice({
   },
 });
 
-export const { getRandomTicketA, getRandomTicketB, getRandomToken } =
-  boardSlice.actions;
+export const {
+  getRandomTicketA,
+  getRandomTicketB,
+  getRandomToken,
+  setIsGameStarted,
+} = boardSlice.actions;
 
 export const BOARD_STATES = {
   getRandomTicketDataA: (state: StoreState) => state.board.randomTicketDataA,
@@ -63,12 +71,14 @@ export const BOARD_STATES = {
   getRevealedTokensData: (state: StoreState) => state.board.revealedTokenData,
   getRevealedToken: (state: StoreState) => state.board.revealedToken,
   getRevealedTokenGrid: (state: StoreState) => state.board.revealedTokenGrid,
+  getIsGameStarted: (state: StoreState) => state.board.isGameStarted,
 };
 
 export const BOARD_ACTIONS = {
   getRandomTicketA,
   getRandomTicketB,
   getRandomToken,
+  setIsGameStarted,
 };
 
 export default boardSlice.reducer;

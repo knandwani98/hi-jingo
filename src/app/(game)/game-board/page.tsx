@@ -1,11 +1,15 @@
 "use client";
 
 import { TokenRevealTable } from "@/components/Board/TokenRevealTable";
-import { Button } from "@/components/ui/button";
+
 import { VAL } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { BOARD_ACTIONS, BOARD_STATES } from "@/slices/boardSlice";
-import { Pause, Play } from "lucide-react";
+import {
+  BOARD_ACTIONS,
+  BOARD_STATES,
+  setIsGameStarted,
+} from "@/slices/boardSlice";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,24 +18,17 @@ const GameBoardPage = () => {
 
   const getRevealedToken = useSelector(BOARD_STATES.getRevealedToken);
   const getRevealedTokensData = useSelector(BOARD_STATES.getRevealedTokensData);
+  const isGameStarted = useSelector(BOARD_STATES.getIsGameStarted);
 
-  const [count, setCount] = useState<number>(0);
-  const [isGameStarted, setIsGameStarted] = useState(false);
+  const [count, setCount] = useState<number>(VAL.TOKEN_SPEED);
   const [isGameOver, setIsGameOver] = useState(false);
-
-  // Game Start
-  useEffect(() => {
-    if (isGameStarted) {
-      setCount(VAL.TOKEN_SPEED);
-    }
-  }, [isGameStarted]);
 
   // Game Over
   useEffect(() => {
     if (getRevealedTokensData.length >= VAL.MAX_NUMBER) {
       setIsGameOver(true);
       setCount(0);
-      setIsGameStarted(false);
+      dispatch(setIsGameStarted(false));
     }
   }, [getRevealedTokensData]);
 
@@ -73,77 +70,63 @@ const GameBoardPage = () => {
     return () => {};
   }, [getRevealedToken]);
 
+  useEffect(() => {
+    if (!isGameStarted) {
+      setCount(VAL.TOKEN_SPEED);
+    }
+  }, [isGameStarted]);
+
   return (
     <main className={cn("text-secondary")}>
-      <section className="max-xl:flex-col flex justify-center max-xl:gap-20 xl:justify-between h-screen items-stretch p-4">
-        {/* LEFT */}
+      <section className="max-xl:flex-col flex justify-center xl:justify-between h-screen items-center">
+        {/* RIGHT */}
         <div
           className={cn(
-            !isGameStarted && !getRevealedToken ? "hidden" : "w-full"
+            !isGameStarted && !getRevealedToken ? "hidden" : "w-full p-4"
           )}
         >
           <TokenRevealTable />
         </div>
 
-        {/* RIGHT */}
-        <section className="bg-secondary-foreground xl:min-h-screen w-full relative">
+        {/* LEFT */}
+        <section className="w-full flex flex-col justify-stretch items-center">
           {/* Game Screen */}
-          <div className="lg:min-h-screen flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <h1 className="font-bold animate-pulse text-9xl lg:text-[380px]">
-              {getRevealedToken
-                ? getRevealedToken
-                : !isGameStarted && (
-                    <div className="flex flex-col items-center justify-center">
-                      <span className="text-4xl sm:text-7xl uppercase italic font-black">
-                        Are you ready?
-                      </span>
-                    </div>
-                  )}
+              {isGameStarted || getRevealedToken ? (
+                getRevealedToken === 0 ? (
+                  "!"
+                ) : (
+                  getRevealedToken
+                )
+              ) : (
+                <div className="flex flex-col items-center justify-center">
+                  <span className="text-4xl sm:text-7xl font-black uppercase">
+                    Are you ready?
+                  </span>
+                </div>
+              )}
             </h1>
           </div>
-        </section>
-
-        {/* Additionals */}
-
-        {/* Countdown */}
-        {isGameStarted && (
-          <div className="fixed bottom-16 left-16 rounded-full flex gap-2">
-            {Array(VAL.TOKEN_SPEED)
-              .fill("")
-              .map((_, i) => {
-                return (
-                  <div
-                    key={i}
-                    className={cn(
-                      "size-5 rounded-full border-2 border-primary",
-                      i >= count ? "bg-primary" : ""
-                    )}
-                  ></div>
-                );
-              })}
-          </div>
-        )}
-
-        {/* Start Buttons */}
-        <div className="fixed bottom-10 right-10">
-          {isGameStarted ? (
-            <Button
-              onClick={() => setIsGameStarted(false)}
-              variant={"primary"}
-              className="w-16 h-16 rounded-full"
-            >
-              <Pause />
-            </Button>
-          ) : (
-            <Button
-              onClick={() => setIsGameStarted(true)}
-              variant={"primary"}
-              className="w-16 h-16 rounded-full"
-            >
-              <Play />
-            </Button>
+          {/* Countdown */}
+          {(isGameStarted || !!getRevealedToken) && (
+            <div className="rounded-full flex gap-2">
+              {Array(VAL.TOKEN_SPEED)
+                .fill("")
+                .map((_, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className={cn(
+                        "size-5 rounded-full border-2 border-primary",
+                        i >= count ? "bg-primary" : ""
+                      )}
+                    ></div>
+                  );
+                })}
+            </div>
           )}
-        </div>
+        </section>
       </section>
     </main>
   );

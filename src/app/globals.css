@@ -57,3 +57,40 @@
     @apply bg-secondary-foreground text-foreground;
   }
 }
+
+.bg-gradient {
+  background: url("../../public/bg/gradient.png") no-repeat;
+  background-size: cover !important;
+}
+
+.gradient-animation {
+  animation: gradient 5s infinite reverse;
+}
+
+.animation-text-slide {
+  animation: slider-text 8s infinite linear;
+}
+
+@keyframes gradient {
+  0% {
+    background: url("../../public/bg/gradient.png") top;
+  }
+
+  50% {
+    background: url("../../public/bg/gradient.png") bottom;
+  }
+
+  100% {
+    background: url("../../public/bg/gradient.png") top;
+  }
+}
+
+@keyframes slider-text {
+  from {
+    transform: translateX(91%);
+  }
+
+  to {
+    transform: translateX(-25%);
+  }
+}

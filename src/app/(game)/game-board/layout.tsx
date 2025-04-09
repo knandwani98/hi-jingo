@@ -1,7 +1,13 @@
+import { Header } from "@/components/Board/Header";
 import React from "react";
 
 const GameLayout = ({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 };
 
 export default GameLayout;
