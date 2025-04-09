@@ -40,7 +40,7 @@ const GameBoardPage = () => {
       timer = setInterval(() => {
         if (count > 0) {
           setCount((prevCount) => prevCount - 1);
-          const countdownSound = new Audio(`./sound/countdown.mp3`);
+          const countdownSound = new Audio(`./sound/countdown.webm`);
           countdownSound.play();
         }
 
