@@ -15,7 +15,7 @@ export const TokenRevealTable = (props: TableProps) => {
         {getRevealedTokenGrid.map((token: any, i: number) => {
           return (
             <li
-              className="max-xl:border xl:outline-double outline-secondary xl:outline-offset-2 text-secondary flex items-center justify-center font-bold sm:text-2xl h-8 w-8 md:h-16 md:w-16 xl:h-20 xl:w-20 aspect-square"
+              className="max-xl:border xl:outline-double outline-secondary xl:outline-offset-2 text-secondary flex items-center justify-center font-bold sm:text-2xl h-8 w-8 md:h-16 md:w-16 aspect-square"
               key={i}
             >
               <p
